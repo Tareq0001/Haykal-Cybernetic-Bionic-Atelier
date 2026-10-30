@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>هَـيْـكَل | معمل الأطراف السيبرانية الحركية والهياكل الحيوية ثلاثية الأبعاد</title>
+  <meta name="description" content="HAYKAL - Cybernetic Bionic Prosthetics & Exoskeleton 3D Atelier. Developed by Eng. Tareq Abuashi. Real-time articulated 3D kinematics, EMG neural telemetry, servo acoustic synthesizer." />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,600;0,700;1,400&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body class="theme-dark">
+  <!-- Subtle Scanline & Grid Background -->
+  <div class="cyber-grid-bg"></div>
+  <div class="cyber-scanlines"></div>
+
+  <!-- Header / Navigation HUD -->
+  <header class="hud-header">
+    <div class="header-branding">
+      <div class="brand-logo-hex">
+        <svg viewBox="0 0 40 40" class="hex-svg">
+          <polygon points="20,2 38,11 38,29 20,38 2,29 2,11" class="hex-border" />
+          <path d="M12 20 L20 12 L28 20 L20 28 Z" class="hex-core" />
+          <circle cx="20" cy="20" r="3" class="hex-dot" />
+        </svg>
+        <span class="pulsing-halo"></span>
+      </div>
+      <div class="brand-text-block">
+        <div class="brand-title-row">
+          <h1 class="brand-title" data-i18n="brandTitle">هَـيْـكَل</h1>
+          <span class="brand-subbadge" data-i18n="brandBadge">HAYKAL-MK.IX</span>
+        </div>
+        <p class="brand-subtitle" data-i18n="brandSubtitle">معمل الأطراف السيبرانية الحركية والهياكل الحيوية ثلاثية الأبعاد</p>
+      </div>
+    </div>
+
+    <!-- Quick Status Badges -->
+    <div class="header-status-strip">
+      <div class="hud-pill" title="Kinematic Core">
+        <span class="status-indicator active"></span>
+        <span class="pill-label" data-i18n="statusIK">Kinematics: ACTIVE</span>
+      </div>
+      <div class="hud-pill" title="Neural Bus">
+        <span class="status-indicator pulse-cyan"></span>
+        <span class="pill-label" data-i18n="statusEMG">EMG Link: 1.2 kHz</span>
+      </div>
+      <div class="hud-pill battery-hud" id="hudBatteryPill" title="Power Cell">
+        <svg class="pill-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="7" width="16" height="10" rx="2" ry="2"></rect>
+          <line x1="22" y1="11" x2="22" y2="13"></line>
+        </svg>
+        <span id="headerBatteryVal">94%</span>
+      </div>
+    </div>
+
+    <!-- Action Controls: Audio, Language, Theme, Dossier Print -->
+    <div class="header-actions">
+      <!-- Sound Toggle -->
+      <button id="btnAudioToggle" class="btn-hud-icon" title="Servo Acoustic Engine" aria-label="Toggle Audio">
+        <svg id="iconAudioOn" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+        <svg id="iconAudioOff" class="hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <line x1="23" y1="9" x2="17" y2="15"></line>
+          <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+        <span class="tooltip" data-i18n="tooltipAudio">الصوت السيبراني</span>
+      </button>
+
+      <!-- Theme Toggle -->
+      <button id="btnThemeToggle" class="btn-hud-icon" title="Toggle Theme" aria-label="Toggle Theme">
+        <svg id="iconMoon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="iconSun" class="hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <span class="tooltip" data-i18n="tooltipTheme">المظهر</span>
+      </button>
+
+      <!-- Language Toggle -->
+      <button id="btnLangToggle" class="btn-hud-icon lang-btn" title="Toggle Language">
+        <span id="langLabel">EN</span>
+        <span class="tooltip" data-i18n="tooltipLang">تغيير اللغة</span>
+      </button>
+
+      <!-- Patient Calibration Dossier Generator -->
+      <button id="btnOpenDossier" class="btn-hud-primary">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y2="13"></line>
+          <line x1="16" y1="17" x2="8" y2="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        <span data-i18n="btnExportDossier">ملف المعايرة السريرية</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Viewport Layout (Split Screen) -->
+  <main class="atelier-workspace">
+    <!-- LEFT COLUMN: 3D Viewport & Real-time Canvas Overlays -->
+    <section class="viewport-col">
+      <div class="viewport-container" id="threeViewportContainer">
+        <!-- Canvas 3D is mounted here -->
+        <canvas id="threeCanvas"></canvas>
+
+        <!-- Viewport Floating Telemetry HUD -->
+        <div class="viewport-hud-overlay top-left">
+          <div class="hud-box glassmorphism">
+            <div class="hud-box-header">
+              <span class="hud-tag" data-i18n="telemetryTag">KINEMATIC TELEMETRY</span>
+              <span class="hud-freq">60 FPS</span>
+            </div>
+            <div class="hud-metrics-row">
+              <div class="metric-cell">
+                <span class="metric-label" data-i18n="labelGripAngle">زاوية القبضة</span>
+                <span class="metric-value font-mono" id="hudGripAngle">18.4°</span>
+              </div>
+              <div class="metric-cell">
+                <span class="metric-label" data-i18n="labelTotalTorque">العزم الإجمالي</span>
+                <span class="metric-value font-mono text-neon" id="hudTotalTorque">3.8 N·m</span>
+              </div>
+              <div class="metric-cell">
+                <span class="metric-label" data-i18n="labelActuators">المحركات</span>
+                <span class="metric-value font-mono text-cyan">15/15 OK</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Viewport Controls (Bottom floating bar) -->
+        <div class="viewport-hud-overlay bottom-center">
+          <div class="viewport-toolbar glassmorphism">
+            <!-- Camera Preset Angles -->
+            <button class="cam-btn active" data-cam="front" title="Front View" data-i18n="camFront">أمام</button>
+            <button class="cam-btn" data-cam="top" title="Top View" data-i18n="camTop">أعلى</button>
+            <button class="cam-btn" data-cam="side" title="Side View" data-i18n="camSide">جانب</button>
+            <button class="cam-btn" data-cam="iso" title="Isometric View" data-i18n="camIso">3D مجسم</button>
+            <div class="toolbar-divider"></div>
+            <!-- Auto Rotate Toggle -->
+            <button id="btnAutoRotate" class="tool-btn" title="Auto Rotate Hand" aria-label="Auto Rotate">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+              </svg>
+              <span data-i18n="toolRotate">دوران</span>
+            </button>
+            <!-- X-Ray Wireframe Mode -->
+            <button id="btnWireframe" class="tool-btn" title="Toggle Hologram Wireframe" aria-label="Hologram Wireframe">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+              </svg>
+              <span data-i18n="toolWireframe">أشعة سينية</span>
+            </button>
+            <!-- Explode / Inspect Chassis -->
+            <button id="btnExplodeChassis" class="tool-btn" title="Inspect Internal Servos" aria-label="Explode View">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"></path>
+              </svg>
+              <span data-i18n="toolExplode">تفكيك الهيكل</span>
+            </button>
+            <!-- Reset Pose -->
+            <button id="btnResetPose" class="tool-btn text-warning" title="Reset Pose" aria-label="Reset Pose">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path>
+                <path d="M21 3v5h-5"></path>
+                <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path>
+                <path d="M3 21v-5h5"></path>
+              </svg>
+              <span data-i18n="toolReset">إعادة ضبط</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3D Material / Finish Selector Floating Badge -->
+        <div class="viewport-hud-overlay top-right">
+          <div class="finish-selector-card glassmorphism">
+            <span class="finish-title" data-i18n="materialChassis">مادة الهيكل الخارجي</span>
+            <div class="finish-swatches">
+              <button class="swatch-btn active" data-finish="carbon" title="Forged Carbon Fiber">
+                <span class="swatch carbon-swatch"></span>
+                <span class="swatch-label" data-i18n="matCarbon">كربون مقوى</span>
+              </button>
+              <button class="swatch-btn" data-finish="titanium" title="Aerospace Grade 5 Titanium">
+                <span class="swatch titanium-swatch"></span>
+                <span class="swatch-label" data-i18n="matTitanium">تيتانيوم طيران</span>
+              </button>
+              <button class="swatch-btn" data-finish="anodized" title="Cyber Anodized Purple/Gold">
+                <span class="swatch anodized-swatch"></span>
+                <span class="swatch-label" data-i18n="matAnodized">مؤكسد سيبراني</span>
+              </button>
+              <button class="swatch-btn" data-finish="obsidian" title="Stealth Matte Obsidian">
+                <span class="swatch obsidian-swatch"></span>
+                <span class="swatch-label" data-i18n="matObsidian">سبج غير لامع</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Real-time EMG & Tactile Sensor Live Displays (Below 3D Canvas) -->
+      <div class="telemetry-deck">
+        <!-- EMG Waveform Visualizer -->
+        <div class="telemetry-card emg-card glassmorphism">
+          <div class="card-header">
+            <div class="header-left">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" class="text-neon">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+              </svg>
+              <h3 data-i18n="emgTitle">الإشارات العضلية الحيوية (Surface EMG)</h3>
+            </div>
+            <div class="emg-controls">
+              <span class="pulse-tag" data-i18n="emgSim">مُحاكاة حية متزامنة</span>
+              <button id="btnEmgBoost" class="btn-xs" title="Induce Muscle Burst" data-i18n="emgBurst">نبضة جهد عالي</button>
+            </div>
+          </div>
+          <div class="canvas-emg-wrapper">
+            <canvas id="emgCanvas" height="110"></canvas>
+            <div class="emg-legend">
+              <span class="legend-dot ch1"></span><span data-i18n="ch1Name">CH1: العاطفة السطحية</span>
+              <span class="legend-dot ch2"></span><span data-i18n="ch2Name">CH2: الباسطة المشتركة</span>
+              <span class="legend-dot ch3"></span><span data-i18n="ch3Name">CH3: مُبعدة الإبهام</span>
+            </div>
+          </div>
+          <div class="emg-metrics-footer">
+            <div class="emg-val"><span data-i18n="emgAmp">السعة:</span> <strong id="valEmgAmp">142 µV</strong></div>
+            <div class="emg-val"><span data-i18n="emgMedFreq">التردد الوسيط:</span> <strong id="valEmgFreq">94 Hz</strong></div>
+            <div class="emg-val"><span data-i18n="emgSNR">نسبة الإشارة/الضجيج:</span> <strong id="valEmgSNR" class="text-neon">28.4 dB</strong></div>
+          </div>
+        </div>
+
+        <!-- Fingertip Tactile Pressure Matrix -->
+        <div class="telemetry-card pressure-card glassmorphism">
+          <div class="card-header">
+            <div class="header-left">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" class="text-cyan">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <h3 data-i18n="tactileTitle">مصفوفة الضغط اللمسي للأطراف</h3>
+            </div>
+            <span class="pressure-total" id="valTotalGripForce">0.0 N</span>
+          </div>
+
+          <div class="fingertip-gauges-grid">
+            <div class="tip-gauge" id="gaugeThumb">
+              <div class="gauge-bar-track">
+                <div class="gauge-bar-fill" style="height: 12%;"></div>
+              </div>
+              <span class="tip-name" data-i18n="fingerThumb">إبهام</span>
+              <span class="tip-value">3.2 N</span>
+            </div>
+            <div class="tip-gauge" id="gaugeIndex">
+              <div class="gauge-bar-track">
+                <div class="gauge-bar-fill" style="height: 18%;"></div>
+              </div>
+              <span class="tip-name" data-i18n="fingerIndex">سبابة</span>
+              <span class="tip-value">4.6 N</span>
+            </div>
+            <div class="tip-gauge" id="gaugeMiddle">
+              <div class="gauge-bar-track">
+                <div class="gauge-bar-fill" style="height: 25%;"></div>
+              </div>
+              <span class="tip-name" data-i18n="fingerMiddle">وسطى</span>
+              <span class="tip-value">6.1 N</span>
+            </div>
+            <div class="tip-gauge" id="gaugeRing">
+              <div class="gauge-bar-track">
+                <div class="gauge-bar-fill" style="height: 10%;"></div>
+              </div>
+              <span class="tip-name" data-i18n="fingerRing">بنصر</span>
+              <span class="tip-value">2.4 N</span>
+            </div>
+            <div class="tip-gauge" id="gaugePinky">
+              <div class="gauge-bar-track">
+                <div class="gauge-bar-fill" style="height: 8%;"></div>
+              </div>
+              <span class="tip-name" data-i18n="fingerPinky">خنصر</span>
+              <span class="tip-value">1.8 N</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT COLUMN: Kinematic Tuning & Cyber Controls -->
+    <aside class="control-panel-col">
+      <!-- Tab Navigation in Control Panel -->
+      <div class="panel-tabs">
+        <button class="panel-tab-btn active" data-tab="kinematics">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+          </svg>
+          <span data-i18n="tabKinematics">التحكم الحركي</span>
+        </button>
+        <button class="panel-tab-btn" data-tab="neural">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+          <span data-i18n="tabNeural">المعايرة العصبية</span>
+        </button>
+        <button class="panel-tab-btn" data-tab="power">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          <span data-i18n="tabPower">الطاقة والبطارية</span>
+        </button>
+      </div>
+
+      <!-- TAB 1: Kinematics & Grip Presets -->
+      <div class="tab-pane active" id="paneKinematics">
+        <!-- Preset Grip Patterns -->
+        <div class="control-section">
+          <div class="section-title-row">
+            <h4 data-i18n="presetTitle">أنماط القبضة الحركية المسبقة</h4>
+            <span class="sub-counter">6 PRESETS</span>
+          </div>
+          <div class="grip-presets-grid">
+            <button class="grip-preset-card" data-preset="fist">
+              <div class="preset-icon">✊</div>
+              <div class="preset-info">
+                <strong data-i18n="presetFist">قبضة القوة الكاملة</strong>
+                <small data-i18n="descFist">عزم إمساك قوي للأحمال الثقيلة</small>
+              </div>
+              <span class="hotkey">P1</span>
+            </button>
+
+            <button class="grip-preset-card" data-preset="pinch">
+              <div class="preset-icon">🤏</div>
+              <div class="preset-info">
+                <strong data-i18n="presetPinch">الالتقاط الدقيق (Pinch)</strong>
+                <small data-i18n="descPinch">ملاقاة الإبهام والسبابة للأجسام الدقيقة</small>
+              </div>
+              <span class="hotkey">P2</span>
+            </button>
+
+            <button class="grip-preset-card" data-preset="point">
+              <div class="preset-icon">👉</div>
+              <div class="preset-info">
+                <strong data-i18n="presetPoint">الإشارة والشاشة اللمسية</strong>
+                <small data-i18n="descPoint">تمديد السبابة للضغط على الشاشات</small>
+              </div>
+              <span class="hotkey">P3</span>
+            </button>
+
+            <button class="grip-preset-card" data-preset="hook">
+              <div class="preset-icon">🪝</div>
+              <div class="preset-info">
+                <strong data-i18n="presetHook">قبضة الخطاف والحقائب</strong>
+                <small data-i18n="descHook">انحناء السلاميات لحمل المقابض</small>
+              </div>
+              <span class="hotkey">P4</span>
+            </button>
+
+            <button class="grip-preset-card" data-preset="peace">
+              <div class="preset-icon">✌️</div>
+              <div class="preset-info">
+                <strong data-i18n="presetPeace">إشارة النصر / حيادية</strong>
+                <small data-i18n="descPeace">انفراج السبابة والوسطى بحركة متزنة</small>
+              </div>
+              <span class="hotkey">P5</span>
+            </button>
+
+            <button class="grip-preset-card active" data-preset="neutral">
+              <div class="preset-icon">🖐️</div>
+              <div class="preset-info">
+                <strong data-i18n="presetNeutral">البسط والاسترخاء التام</strong>
+                <small data-i18n="descNeutral">فتح كامل للسلاميات 0% انثناء</small>
+              </div>
+              <span class="hotkey">P6</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Master Joint Flexion Sliders -->
+        <div class="control-section">
+          <div class="section-title-row">
+            <h4 data-i18n="jointSlidersTitle">التحكم الدقيق في انثناء الأصابع الفردية</h4>
+            <button id="btnFlexAll" class="btn-link-xs" data-i18n="btnFlexAll">قبض الكل (100%)</button>
+          </div>
+
+          <div class="sliders-stack">
+            <!-- Thumb -->
+            <div class="slider-group">
+              <div class="slider-meta">
+                <span class="slider-name" data-i18n="fingerThumb">الإبهام (Pollex)</span>
+                <span class="slider-val" id="valThumb">0%</span>
+              </div>
+              <input type="range" class="cyber-slider" id="slideThumb" min="0" max="100" value="0" />
+            </div>
+
+            <!-- Index -->
+            <div class="slider-group">
+              <div class="slider-meta">
+                <span class="slider-name" data-i18n="fingerIndex">السبابة (Index)</span>
+                <span class="slider-val" id="valIndex">0%</span>
+              </div>
+              <input type="range" class="cyber-slider" id="slideIndex" min="0" max="100" value="0" />
+            </div>
+
+            <!-- Middle -->
+            <div class="slider-group">
+              <div class="slider-meta">
+                <span class="slider-name" data-i18n="fingerMiddle">الوسطى (Medius)</span>
+                <span class="slider-val" id="valMiddle">0%</span>
+              </div>
+              <input type="range" class="cyber-slider" id="slideMiddle" min="0" max="100" value="0" />
+            </div>
+
+            <!-- Ring -->
+            <div class="slider-group">
+              <div class="slider-meta">
+                <span class="slider-name" data-i18n="fingerRing">البنصر (Annularis)</span>
+                <span class="slider-val" id="valRing">0%</span>
+              </div>
+              <input type="range" class="cyber-slider" id="slideRing" min="0" max="100" value="0" />
+            </div>
+
+            <!-- Pinky -->
+            <div class="slider-group">
+              <div class="slider-meta">
+                <span class="slider-name" data-i18n="fingerPinky">الخنصر (Auricularis)</span>
+                <span class="slider-val" id="valPinky">0%</span>
+              </div>
+              <input type="range" class="cyber-slider" id="slidePinky" min="0" max="100" value="0" />
+            </div>
+
+            <!-- Wrist Yaw / Pitch -->
+            <div class="wrist-axes-row">
+              <div class="slider-group mini">
+                <div class="slider-meta">
+                  <span class="slider-name" data-i18n="wristPitch">إمالة المعصم (Pitch)</span>
+                  <span class="slider-val" id="valWristPitch">0°</span>
+                </div>
+                <input type="range" class="cyber-slider" id="slideWristPitch" min="-30" max="30" value="0" />
+              </div>
+              <div class="slider-group mini">
+                <div class="slider-meta">
+                  <span class="slider-name" data-i18n="wristYaw">دوران المعصم (Yaw)</span>
+                  <span class="slider-val" id="valWristYaw">0°</span>
+                </div>
+                <input type="range" class="cyber-slider" id="slideWristYaw" min="-45" max="45" value="0" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: Neural Decoding & EMG Tuning -->
+      <div class="tab-pane" id="paneNeural">
+        <div class="control-section">
+          <div class="section-title-row">
+            <h4 data-i18n="neuralDecoderTitle">مفكك الشفرات العصبية العضلية</h4>
+            <span class="badge-accent">AI-Pattern Matching</span>
+          </div>
+          <p class="section-desc" data-i18n="neuralDesc">
+            معايرة عتبات التحفيز الكهربائي للأقطاب السطحية (Surface Electrodes) لربط إشارات العضلات بالحركة الميكانيكية التلقائية.
+          </p>
+
+          <div class="neural-calibration-box">
+            <div class="neural-stat-row">
+              <span data-i18n="neuralThreshold">عتبة التشغيل العصبية:</span>
+              <span class="font-mono text-neon" id="dispThreshold">65 µV</span>
+            </div>
+            <input type="range" class="cyber-slider" id="slideThreshold" min="20" max="150" value="65" />
+
+            <div class="neural-stat-row mt-3">
+              <span data-i18n="neuralFilter">معدل تنقية الضجيج (Kalman):</span>
+              <span class="font-mono text-cyan" id="dispFilter">92%</span>
+            </div>
+            <input type="range" class="cyber-slider" id="slideFilter" min="50" max="99" value="92" />
+          </div>
+
+          <div class="pattern-recognition-box">
+            <h5 data-i18n="patternTitle">التعرف على نمط الانقباض:</h5>
+            <div class="recognition-bar">
+              <div class="recog-fill" id="recogPatternFill" style="width: 78%;"></div>
+            </div>
+            <div class="pattern-detected-text">
+              <span data-i18n="patternDetectedLabel">النمط المكتشف:</span>
+              <strong id="patternDetectedVal" class="text-neon" data-i18n="presetFist">قبضة القوة الكاملة</strong>
+            </div>
+          </div>
+
+          <div class="electrode-impedance-grid">
+            <div class="electrode-badge ok">
+              <span>EL-01</span>
+              <small>3.2 kΩ</small>
+            </div>
+            <div class="electrode-badge ok">
+              <span>EL-02</span>
+              <small>2.9 kΩ</small>
+            </div>
+            <div class="electrode-badge ok">
+              <span>EL-03</span>
+              <small>3.7 kΩ</small>
+            </div>
+            <div class="electrode-badge ok">
+              <span>EL-04</span>
+              <small>3.1 kΩ</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: Power & Battery Management -->
+      <div class="tab-pane" id="panePower">
+        <div class="control-section">
+          <div class="section-title-row">
+            <h4 data-i18n="powerTitle">إدارة خلايا الطاقة والجهد</h4>
+            <span class="badge-accent">LiFePO4 Core</span>
+          </div>
+
+          <div class="battery-main-gauge">
+            <div class="battery-visual">
+              <div class="battery-cap"></div>
+              <div class="battery-body">
+                <div class="battery-liquid-level" id="batteryLiquid" style="height: 94%;"></div>
+                <div class="battery-level-label font-mono" id="batteryPercentText">94%</div>
+              </div>
+            </div>
+            <div class="battery-stats-list">
+              <div class="b-stat">
+                <span class="b-label" data-i18n="battVoltage">الجهد الاسمي:</span>
+                <span class="b-val font-mono" id="battVoltageVal">14.8 V</span>
+              </div>
+              <div class="b-stat">
+                <span class="b-label" data-i18n="battCurrent">السحب الحالي:</span>
+                <span class="b-val font-mono text-neon" id="battCurrentVal">0.42 A</span>
+              </div>
+              <div class="b-stat">
+                <span class="b-label" data-i18n="battTemp">درجة الحرارة:</span>
+                <span class="b-val font-mono" id="battTempVal">29.4 °C</span>
+              </div>
+              <div class="b-stat">
+                <span class="b-label" data-i18n="battRuntime">العمر التشغيلي المتبقي:</span>
+                <span class="b-val font-mono text-cyan" id="battRuntimeVal">14.6 h</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="power-modes-row">
+            <button class="p-mode-btn active" data-pmode="balanced">
+              <strong data-i18n="pmodeBalanced">متزن</strong>
+              <small data-i18n="pmodeBalancedDesc">أداء سلس واستهلاك طبيعي</small>
+            </button>
+            <button class="p-mode-btn" data-pmode="performance">
+              <strong data-i18n="pmodePerf">عزم فائق</strong>
+              <small data-i18n="pmodePerfDesc">سرعة حركة واستجابة قصوى</small>
+            </button>
+            <button class="p-mode-btn" data-pmode="eco">
+              <strong data-i18n="pmodeEco">توفير الطاقة</strong>
+              <small data-i18n="pmodeEcoDesc">إطالة عمر الشحن حتى 24 ساعة</small>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Designer & Lead Architect Tag -->
+      <div class="developer-signature-box glassmorphism">
+        <div class="dev-avatar">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+        <div class="dev-info">
+          <span class="dev-role" data-i18n="architectRole">المطور والمصمم المعماري للأنظمة</span>
+          <strong class="dev-name" data-i18n="architectName">أ. طارق ابوعشي</strong>
+          <span class="dev-project" data-i18n="architectProject">معمل الأطراف والذكاء الميكانيكي الحيوي</span>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- PATIENT CALIBRATION & MEDICAL DOSSIER MODAL -->
+  <div class="modal-overlay hidden" id="dossierModal">
+    <div class="modal-window glassmorphism" id="printableDossier">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="badge-medical" data-i18n="dossierBadge">وثيقة طبية حيوية رسمية</span>
+          <h2 data-i18n="dossierTitle">تقرير المعايرة الكينماتيكية للمريض</h2>
+        </div>
+        <button id="btnCloseDossier" class="btn-close-modal" aria-label="Close Modal">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Patient and Spec Details Form -->
+        <div class="dossier-grid">
+          <div class="form-group">
+            <label data-i18n="lblPatientName">اسم المريض / المستفيد:</label>
+            <input type="text" id="iptPatientName" class="cyber-input" value="سعود العسيري" />
+          </div>
+          <div class="form-group">
+            <label data-i18n="lblPatientId">الرقم الطبي (Medical ID):</label>
+            <input type="text" id="iptPatientId" class="cyber-input font-mono" value="BIO-7901-SA" />
+          </div>
+          <div class="form-group">
+            <label data-i18n="lblAmputation">مستوى البتر / الحالة:</label>
+            <input type="text" id="iptAmputation" class="cyber-input" value="بتر ساعدي أيمن (Transradial)" />
+          </div>
+          <div class="form-group">
+            <label data-i18n="lblProstheticModel">طراز الطرف المبرمج:</label>
+            <input type="text" id="iptModel" class="cyber-input font-mono" value="HAYKAL Cybernetic Hand MK-IX" readonly />
+          </div>
+        </div>
+
+        <!-- Live Snapshot Calibration Metrics -->
+        <div class="calibration-summary-table">
+          <table>
+            <thead>
+              <tr>
+                <th data-i18n="colMetric">المعيار الحركي</th>
+                <th data-i18n="colValue">القيمة المعايرة</th>
+                <th data-i18n="colStatus">الحالة</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td data-i18n="metLatency">زمن استجابة المحركات (Actuator Latency)</td>
+                <td class="font-mono text-neon">14.2 ms</td>
+                <td><span class="tag-status-ok" data-i18n="tagCertified">معتمد طبياً</span></td>
+              </tr>
+              <tr>
+                <td data-i18n="metGripPower">عزم القبضة القصوى (Peak Torque)</td>
+                <td class="font-mono" id="rptMaxTorque">112.5 N</td>
+                <td><span class="tag-status-ok" data-i18n="tagCertified">معتمد طبياً</span></td>
+              </tr>
+              <tr>
+                <td data-i18n="metChassis">مادة الهيكل الخارجي (Chassis Material)</td>
+                <td id="rptChassisMat">Forged Carbon Fiber</td>
+                <td><span class="tag-status-ok" data-i18n="tagCertified">معتمد طبياً</span></td>
+              </tr>
+              <tr>
+                <td data-i18n="metChannels">قنوات الاستشعار العضلي (EMG Array)</td>
+                <td class="font-mono">4-Channel High-SNR Differential</td>
+                <td><span class="tag-status-ok" data-i18n="tagCertified">معتمد طبياً</span></td>
+              </tr>
+              <tr>
+                <td data-i18n="metSensory">التغذية الراجعة اللمسية (Haptic Feedback)</td>
+                <td class="font-mono">5-Zone Piezoresistive Fingertip Array</td>
+                <td><span class="tag-status-ok" data-i18n="tagCertified">معتمد طبياً</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- QR Code & Signature Section -->
+        <div class="dossier-signature-row">
+          <div class="qr-stamp-box">
+            <div class="qr-code-graphic">
+              <!-- Inline High-Tech QR Code SVG -->
+              <svg viewBox="0 0 100 100" width="80" height="80">
+                <rect width="100" height="100" fill="#020617"/>
+                <path d="M10,10 h30 v30 h-30 z M16,16 v18 h18 v-18 z M22,22 h6 v6 h-6 z" fill="#84cc16"/>
+                <path d="M60,10 h30 v30 h-30 z M66,16 v18 h18 v-18 z M72,22 h6 v6 h-6 z" fill="#84cc16"/>
+                <path d="M10,60 h30 v30 h-30 z M16,66 v18 h18 v-18 z M22,72 h6 v6 h-6 z" fill="#84cc16"/>
+                <rect x="45" y="10" width="8" height="25" fill="#00f0ff"/>
+                <rect x="10" y="45" width="25" height="8" fill="#00f0ff"/>
+                <rect x="45" y="45" width="10" height="10" fill="#84cc16"/>
+                <rect x="60" y="45" width="30" height="8" fill="#84cc16"/>
+                <rect x="45" y="60" width="8" height="30" fill="#00f0ff"/>
+                <rect x="60" y="60" width="12" height="12" fill="#00f0ff"/>
+                <rect x="76" y="76" width="14" height="14" fill="#84cc16"/>
+              </svg>
+            </div>
+            <div class="qr-info">
+              <small class="font-mono text-neon">SHA-256 VERIFIED</small>
+              <span data-i18n="qrDocId">وثيقة مشفرة رقمياً</span>
+            </div>
+          </div>
+
+          <div class="signature-box">
+            <span class="sig-title" data-i18n="sigTitle">رئيس الفريق والمعماري المسؤول:</span>
+            <div class="sig-name">أ. طارق ابوعشي</div>
+            <div class="sig-title-sub" data-i18n="sigRole">أخصائي الأطراف والأنظمة السيبرانية الحركية</div>
+            <div class="official-stamp-seal">
+              <span>HAYKAL CLINICAL CERTIFIED</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button id="btnPrintDossier" class="btn-hud-primary">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          <span data-i18n="btnPrint">طباعة وحفظ التقرير (PDF)</span>
+        </button>
+        <button id="btnCelebrateCalib" class="btn-hud-secondary">
+          <span>🎉</span>
+          <span data-i18n="btnCelebrate">اعتماد المعايرة واختبار الاستجابة</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>
